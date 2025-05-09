@@ -83,6 +83,9 @@ The app will open in your browser at:
 http://localhost:8501
 ```
 
+![image](https://github.com/user-attachments/assets/c4ae211a-909b-4c9e-9159-df3345344688)
+
+
 ---
 
 ## 3. Stop the App
