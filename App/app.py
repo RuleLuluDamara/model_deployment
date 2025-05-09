@@ -1,50 +1,72 @@
 import streamlit as st
 import numpy as np
-import pandas as pd
-import joblib  # Untuk memuat model
+import tensorflow as tf
+from keras.models import load_model
+import joblib
 
-# Muat model jika sudah ada (ganti dengan path model Anda)
-# model = joblib.load("model.pkl")
+# Load model dan scaler
+model_load = load_model('model_grade_predict_dum.h5')
+scaler_load = joblib.load('scaler.joblib')
 
-# Judul aplikasi
-st.set_page_config(page_title="Food Grading Prediction",
-                   page_icon="🥬", layout="centered")
+# Fungsi prediksi
 
-st.title("🥬 Food Grading Prediction")
-st.markdown("Masukkan data makanan untuk memprediksi tingkat kualitasnya.")
 
-# Form input
-with st.form("grading_form"):
-    moisture = st.number_input(
-        "Kadar Air (%)", min_value=0.0, max_value=100.0, step=0.1)
-    weight = st.number_input("Berat (gram)", min_value=0.0, step=1.0)
-    sugar = st.number_input(
-        "Kadar Gula (%)", min_value=0.0, max_value=100.0, step=0.1)
-    color_score = st.slider(
-        "Skor Warna (1 = buruk, 10 = sangat baik)", 1, 10, 5)
+def predict_nutriscore(energy_100g, proteins_100g, fat_100g, carbohydrates_100g,
+                       sugars_100g, sodium_100g, saturated_fat_100g, fiber_100g):
+    X = np.array([[energy_100g, proteins_100g, fat_100g, carbohydrates_100g,
+                   sugars_100g, sodium_100g, saturated_fat_100g, fiber_100g]])
+    X_scaled = scaler_load.transform(X)
+    nutriscore_grade_pred = model_load.predict(X_scaled)
+    predicted_class = np.argmax(nutriscore_grade_pred, axis=-1)[0]
+    mapping = {0: 'A', 1: 'B', 2: 'C', 3: 'D', 4: 'E'}
+    return mapping[predicted_class]
 
-    submitted = st.form_submit_button("Prediksi")
+
+# Konfigurasi halaman
+st.set_page_config(page_title="Nutriscore Predictor",
+                   page_icon="🥦", layout="centered")
+
+# Judul
+st.title("🥦 Nutriscore Grade Predictor")
+st.markdown(
+    "Masukkan nilai nutrisi per 100g untuk memprediksi **Nutriscore Grade (A–E)** produk makanan.")
+
+st.markdown("---")
+
+# Formulir input
+with st.form("nutriscore_form"):
+    st.subheader("🧪 Input Nutritional Values")
+    col1, col2 = st.columns(2)
+
+    with col1:
+        energy_100g = st.number_input('Energy (kcal)', min_value=0.0, step=0.1)
+        proteins_100g = st.number_input(
+            'Proteins (g)', min_value=0.0, step=0.1)
+        fat_100g = st.number_input('Fat (g)', min_value=0.0, step=0.1)
+        fiber_100g = st.number_input('Fiber (g)', min_value=0.0, step=0.1)
+
+    with col2:
+        carbohydrates_100g = st.number_input(
+            'Carbohydrates (g)', min_value=0.0, step=0.1)
+        sugars_100g = st.number_input('Sugars (g)', min_value=0.0, step=0.1)
+        sodium_100g = st.number_input('Sodium (mg)', min_value=0.0, step=0.1)
+        saturated_fat_100g = st.number_input(
+            'Saturated Fat (g)', min_value=0.0, step=0.1)
+
+    submitted = st.form_submit_button("🔍 Predict")
 
 # Proses prediksi
 if submitted:
-    # Contoh data sebagai array
-    input_data = np.array([[moisture, weight, sugar, color_score]])
+    grade = predict_nutriscore(energy_100g, proteins_100g, fat_100g, carbohydrates_100g,
+                               sugars_100g, sodium_100g, saturated_fat_100g, fiber_100g)
 
-    # Jika model tersedia
-    # prediction = model.predict(input_data)
-    # grade = prediction[0]
+    st.markdown("### 📊 Hasil Prediksi")
+    st.success(f"🎯 Nutriscore Grade yang diprediksi adalah: **{grade}**")
 
-    # Dummy output untuk contoh
-    grade = "A" if moisture < 50 and sugar > 10 and color_score > 7 else "B"
-
-    st.success(f"Prediksi Tingkat Kualitas: **Grade {grade}**")
-
-    # Tambahkan penjelasan atau rekomendasi
-    st.markdown(
-        f"""
-        ### ℹ️ Informasi Tambahan:
-        - Kadar Air: `{moisture}%`
-        - Kadar Gula: `{sugar}%`
-        - Warna: `{color_score}/10`
-        """
-    )
+    st.markdown("---")
+    st.markdown("""
+    **Keterangan Grade:**
+    - 🟢 **A**: Sangat sehat
+    - 🟡 **B / C**: Sedang
+    - 🔴 **D / E**: Perlu dibatasi konsumsinya
+    """)
