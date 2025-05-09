@@ -4,6 +4,18 @@ This guide will help you set up and run the Streamlit application locally.
 
 ---
 
+## Understanding Streamlit's client-server architecture
+
+Streamlit apps have a client-server structure. The Python backend of your app is the server. The frontend you view through a browser is the client.
+
+### Python backend (server)
+
+The machine running your Streamlit server is also called a host. When you execute the command `streamlit run app.py`, your computer uses Python to start up a Streamlit server.
+
+### Python frontend (client)
+
+When someone views your app through a browser, their device is a Streamlit client. When you view your app from the same computer where you are running or developing your app, then server and client are coincidentally running on the same machine.
+
 ## Prerequisites
 
 Make sure you have the following installed:
@@ -84,7 +96,6 @@ http://localhost:8501
 ```
 
 ![image](https://github.com/user-attachments/assets/c4ae211a-909b-4c9e-9159-df3345344688)
-
 
 ---
 

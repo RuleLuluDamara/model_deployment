@@ -4,12 +4,8 @@ import tensorflow as tf
 from keras.models import load_model
 import joblib
 
-# Load model dan scaler
 model_load = load_model('model_grade_predict_dum.h5')
 scaler_load = joblib.load('scaler.joblib')
-
-# Fungsi prediksi
-
 
 def predict_nutriscore(energy_100g, proteins_100g, fat_100g, carbohydrates_100g,
                        sugars_100g, sodium_100g, saturated_fat_100g, fiber_100g):
@@ -22,18 +18,15 @@ def predict_nutriscore(energy_100g, proteins_100g, fat_100g, carbohydrates_100g,
     return mapping[predicted_class]
 
 
-# Konfigurasi halaman
 st.set_page_config(page_title="Nutriscore Predictor",
                    page_icon="🥦", layout="centered")
 
-# Judul
 st.title("🥦 Nutriscore Grade Predictor")
 st.markdown(
     "Masukkan nilai nutrisi per 100g untuk memprediksi **Nutriscore Grade (A–E)** produk makanan.")
 
 st.markdown("---")
 
-# Formulir input
 with st.form("nutriscore_form"):
     st.subheader("🧪 Input Nutritional Values")
     col1, col2 = st.columns(2)
@@ -55,7 +48,6 @@ with st.form("nutriscore_form"):
 
     submitted = st.form_submit_button("🔍 Predict")
 
-# Proses prediksi
 if submitted:
     grade = predict_nutriscore(energy_100g, proteins_100g, fat_100g, carbohydrates_100g,
                                sugars_100g, sodium_100g, saturated_fat_100g, fiber_100g)
