@@ -1,1 +1,10 @@
-/App/kppl_rka
+App/kppl_rka/Lib/
+App/kppl_rka/Include/
+App/kppl_rka/Scripts/
+App/kppl_rka/pyvenv.cfg
+__pycache__/
+*.pyc
+*.pyd
+*.h5
+*.joblib
+.DS_Store
