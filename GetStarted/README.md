@@ -8,21 +8,27 @@ This guide will help you set up and run the Streamlit application locally.
 
 Make sure you have the following installed:
 
-- Python 3.7+
+- Python 3.9+
 - pip (Python package installer)
 
 ### Project Structure
 
 ```bash
-project-folder/
+project_name/
 │
 ├── app.py
 ├── requirements.txt
 ├── README.md
-└── venv/
+└── kppl_rka/
 ```
 
 ## 1. Create and Activate Virtual Environment
+
+Open a terminal and navigate to your project folder
+
+```bash
+cd project_name
+```
 
 ### Windows (Command Prompt / PowerShell)
 
@@ -38,7 +44,7 @@ python3 -m venv kppl_rka
 source kppl_rka/bin/activate
 ```
 
----
+## A folder named ".kppl_rka" will appear in your project. This directory is where your virtual environment and its dependencies are installed.
 
 ## 2. Install Streamlit and Dependencies
 
