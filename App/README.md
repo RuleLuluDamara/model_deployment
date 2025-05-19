@@ -89,3 +89,6 @@ Kamu bisa menambahkan integrasi database atau autentikasi lanjutan jika diingink
 Model model_grade_predict_dum.h5 dan scaler.joblib harus tersedia di root folder agar aplikasi berjalan.
 
 ## Preview
+![Screenshot 2025-05-20 005103](https://github.com/user-attachments/assets/31575874-76f1-400a-bf74-fa2547049a3f)
+![image](https://github.com/user-attachments/assets/291b98a5-f239-4eb5-be3d-23035df9fba4)
+
