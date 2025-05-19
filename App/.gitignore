@@ -1,0 +1,10 @@
+App/kppl_rka
+App/kppl_rka
+App/kppl_rka
+App/kppl_rka
+__pycache__/
+*.pyc
+*.pyd
+*.h5
+*.joblib
+.DS_Store

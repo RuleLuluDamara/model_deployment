@@ -9,7 +9,6 @@ import joblib
 from keras.models import load_model
 import time
 
-# Simulated user database
 users_db = {
     "rule": {
         "name": "Admin",
